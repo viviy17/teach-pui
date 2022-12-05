@@ -76,6 +76,7 @@ function deleteNote(notecard) {
 
   // remove the actual Notecard object from our set of notecards
   notecardSet.delete(notecard);
+  saveToLocalStorage();
 }
 
 
@@ -83,5 +84,57 @@ function deleteNote(notecard) {
 
 function submitNote() {
   // Nothing here yet!
-  console.log("Submitted Note!")
+  // console.log("Submitted Note!")
+
+  //select the title of note, then read the value and store it in a variable.
+  const noteEditorTitle = document.querySelector('#note-editor-title');
+  const editorTitleText = noteEditorTitle.value;
+
+  //select the body of note, then read the value and store it in a variable.
+  const noteEditorBody= document.querySelector('#note-editor-body');
+  const editorBodyText= noteEditorBody.value;
+
+  //select the image of note, then read the sourc and store it in a variable.
+  const noteEditorImage= document.querySelector('#note-editor-image');
+  const editorImageURL= noteEditorImage.src;
+
+  //use previous functions addNewNote (updates set) and createElement (updates HTML)
+  const notecard= addNewNote(editorImageURL,editorBodyText,editorTitleText);
+  createElement(notecard);
+
+  saveToLocalStorage();
 }
+
+
+//Save to local storage
+
+function saveToLocalStorage(){
+  //convert notecard set to array of objects
+  const notecardArray=Array.from(notecardSet);
+  console.log("This is notecardArray: ", notecardArray);
+
+  //convert JS array to string of text
+  const notecardArrayString=JSON.stringify(notecardArray);
+  console.log("This is JSON stringify: ", notecardArrayString);
+
+  localStorage.setItem('storedNotes', notecardArrayString)
+}
+
+function retrieveFromLocalStorage(){
+  const notecardArrayString= localStorage.getItem('storedNotes');
+  //turn back from string to array
+  const notecardArray=JSON.parse(notecardArrayString);
+  console.log("This is notecard array: ", notecardArray);
+
+  //create object using for loop in array
+  for (const noteData of notecardArray){
+    const notecard=addNewNote(noteData.noteImageURL, noteData.noteTitle, noteData.noteBody);
+    createElement(notecard);
+  }
+}
+
+if (localStorage.getItem('storedNotes')!=null){
+  retrieveFromLocalStorage();
+}
+
+

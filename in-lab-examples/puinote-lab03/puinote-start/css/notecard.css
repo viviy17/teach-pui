@@ -205,3 +205,14 @@ display: none;
   background-color: green;
   color: #dddddd
 }
+
+
+.box-one{
+  background-color: pink;
+  border: 0 solid purple;
+}
+
+.box-two{
+  background-color:blue;
+  border: 0 solid green; 
+}
