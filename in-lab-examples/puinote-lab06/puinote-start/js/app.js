@@ -34,6 +34,7 @@ function addNewNote(imageURL, title, body) {
   return notecard;
 }
 
+
 function createElement(notecard) {
   // make a clone of the notecard template
   const template = document.querySelector('#notecard-template');
